@@ -1,10 +1,11 @@
 import uuid from "uuid";
+import remove from 'lodash/remove';
 
 const todos = [
-    {id: 1, title: 'Todo 1', category: 'Daily'},
-    {id: 2, title: 'Todo 2', category: 'Business'},
-    {id: 3, title: 'Todo 3', category: 'Daily'},
-    {id: 4, title: 'Todo 4', category: 'Learning'},
+    {id: uuid.v4(), title: 'Todo 1', category: 'Daily'},
+    {id: uuid.v4(), title: 'Todo 2', category: 'Business'},
+    {id: uuid.v4(), title: 'Todo 3', category: 'Daily'},
+    {id: uuid.v4(), title: 'Todo 4', category: 'Learning'},
 ];
 
 export const resolvers = {
@@ -20,8 +21,12 @@ export const resolvers = {
             todos.push(newTodo);
             return newTodo;
         },
-        removeTodo: (root, args) => {
-            todos.filter(item => item.id !== args.id)
+        removeTodo: (_, args) => {
+            const {todoId} = args;
+
+            remove(todos, function(item){
+                return item.id === todoId;
+            });
             return {success: true};
         }
     },
