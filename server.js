@@ -5,46 +5,11 @@ import {createServer} from 'http';
 import {SubscriptionServer} from 'subscriptions-transport-ws';
 
 import {resolvers} from './src/resolvers';
+import {typeDefs} from './src/schema';
 
 const PORT = 4000;
 const WS_PORT = 5000;
 
-export const typeDefs = gql`
-    type Todo {
-        id: ID!
-        title: String
-        category: String
-    }
-    
-    input NoteInput {
-        todeId: ID!
-        details: String
-    }
-    
-    type Note {
-        id: ID!
-        details: String
-    }
-
-    type Query {
-        todos: [Todo]
-        todo(id: ID!): Todo  
-    }
-
-    type Response {
-        success: Boolean
-    }
-    
-    type Mutation {
-        addTodo(title: String!, category: String!) : Todo
-        removeTodo(todoId: Int!) : Response
-        addNote(note: NoteInput!) : Note
-    }
-    
-    type Subscription {
-        noteAdded(todoId: ID!): Note
-    }
-`;
 const schema = typeDefs;
 
 // Create WebSocket listener server
@@ -66,8 +31,19 @@ const corsOptions = {
     credentials: true
 };
 
+const mocks = {
+    Product: () => ({
+        imageUrl: () => null
+    })
+};
+
 // Setup Server
-const server = new ApolloServer({ typeDefs, resolvers });
+const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+    mocks,
+    mockEntireSchema: false
+});
 const app = express();
 server.applyMiddleware({ app, cors: corsOptions });
 

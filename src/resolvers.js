@@ -13,6 +13,11 @@ export const resolvers = {
         todos: () => {
             return todos;
         },
+        todo: (root, args) => {
+            const {id} = args;
+            return todos[0];
+        },
+        helloTwo: () => 'Real Hello'
     },
     Mutation: {
         addTodo: (root, args) => {
