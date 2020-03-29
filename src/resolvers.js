@@ -1,37 +1,36 @@
-import uuid from "uuid";
-import remove from 'lodash/remove';
-
-const todos = [
-    {id: uuid.v4(), title: 'Todo 1', category: 'Daily'},
-    {id: uuid.v4(), title: 'Todo 2', category: 'Business'},
-    {id: uuid.v4(), title: 'Todo 3', category: 'Daily'},
-    {id: uuid.v4(), title: 'Todo 4', category: 'Learning'},
-];
+import Product from './models/Product';
 
 export const resolvers = {
     Query: {
-        todos: () => {
-            return todos;
+        products: async () => {
+            return await Product.find({});
         },
-        todo: (root, args) => {
+        product: async (root, args) => {
             const {id} = args;
-            return todos[0];
+
+            return await Product.findOne({_id: id});
         },
-        helloTwo: () => 'Real Hello'
     },
     Mutation: {
-        addTodo: (root, args) => {
-            const newId = uuid.v4();
-            const newTodo = {id: newId, title: args.title, category: args.category};
-            todos.push(newTodo);
-            return newTodo;
-        },
-        removeTodo: (_, args) => {
-            const {todoId} = args;
+        addProduct: async (root, args) => {
+            const newProduct = new Product(args);
 
-            remove(todos, function(item){
-                return item.id === todoId;
+            return await newProduct.save();
+        },
+        updateProduct: async (_, args) => {
+            const {productId, input} = args;
+            const res = await Product.findOneAndUpdate({_id: productId}, input, {
+                new: true,
+                upsert: true,
+                rawResult: true
             });
+            return res.value;
+        },
+        removeProduct: async (_, args) => {
+            const {productId} = args;
+
+            await Product.findOneAndDelete({_id: productId});
+
             return {success: true};
         }
     },

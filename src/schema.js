@@ -1,41 +1,19 @@
 import {gql} from "apollo-server-express";
 
 export const typeDefs = gql`
-    type Todo {
-        id: ID!
-        title: String
-        category: String
-    }
-    
-    type Image {
-        url: String
-        description: String
-        thumbnailUrl(width: Int, height: Int): String
-    }
-    
-    enum ProductDescriptionFormat {
-        TEXT
-        HTML
-    }
-    
-    enum Locales {
-        EN
-        FR
-        DE
+    input ProductInput {
+        title: String!
+        category: String!
     }
     
     type Product {
-        name: String!
-        description(format: ProductDescriptionFormat, locale: Locales = EN): String
-        imageObject: Image @deprecated(reason: "Use \`image\`.")
-        image: Image
-        imageUrl: String
+        _id: ID
+        title: String
+        category: String
     }
 
     type Query {
-        todos: [Todo]
-        todo(id: ID!): Todo
-        helloTwo: String
+        products: [Product]
         product(id: ID!): Product
     }
 
@@ -44,7 +22,8 @@ export const typeDefs = gql`
     }
 
     type Mutation {
-        addTodo(title: String!, category: String!) : Todo
-        removeTodo(todoId: Int!) : Response
+        addProduct(title: String!, category: String!) : Product
+        updateProduct(productId: ID!, input: ProductInput) : Product
+        removeProduct(productId: String!) : Response
     }
 `;
