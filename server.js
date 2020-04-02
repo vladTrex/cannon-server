@@ -7,7 +7,7 @@ import {typeDefs} from './src/schema';
 
 const PORT = 4000;
 
-mongoose.connect('url', {
+mongoose.connect('mongodb://warehouse_admin:s92ks9339p1U@ds155825.mlab.com:55825/warehouse_prod', {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,

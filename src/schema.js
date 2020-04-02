@@ -12,9 +12,15 @@ export const typeDefs = gql`
         category: String
     }
 
+    type Me {
+        name: String
+        hobbies: [String]
+    }
+
     type Query {
         products: [Product]
         product(id: ID!): Product
+        me: Me
     }
 
     type Response {

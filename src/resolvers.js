@@ -1,5 +1,11 @@
 import Product from './models/Product';
 
+const ME = { name: 'Vlad', hobbies: ['Programming', 'Swimming'] };
+
+const delay = ms => new Promise(resolve => {
+    setTimeout(resolve, ms);
+});
+
 export const resolvers = {
     Query: {
         products: async () => {
@@ -10,6 +16,11 @@ export const resolvers = {
 
             return await Product.findOne({_id: id});
         },
+
+        me: async () => {
+            await delay(1000)
+            return ME;
+        }
     },
     Mutation: {
         addProduct: async (root, args) => {
