@@ -13,8 +13,9 @@ export const typeDefs = gql`
     }
 
     type Me {
+        _id: ID!
         name: String
-        hobbies: [String]
+        bio: String
     }
 
     type Query {
@@ -31,5 +32,6 @@ export const typeDefs = gql`
         addProduct(title: String!, category: String!) : Product
         updateProduct(productId: ID!, input: ProductInput) : Product
         removeProduct(productId: String!) : Response
+        updateMe(bio: String!): Me
     }
 `;

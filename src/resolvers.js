@@ -1,6 +1,10 @@
 import Product from './models/Product';
 
-const ME = { name: 'Vlad', hobbies: ['Programming', 'Swimming'] };
+const ME = {
+    _id: 1019,
+    name: "John Doe",
+    bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+  };
 
 const delay = ms => new Promise(resolve => {
     setTimeout(resolve, ms);
@@ -43,6 +47,11 @@ export const resolvers = {
             await Product.findOneAndDelete({_id: productId});
 
             return {success: true};
+        },
+        updateMe: (_, args) => {
+            const { bio } = args;
+            ME.bio = bio;
+            return ME;
         }
-    },
+    }
 };
