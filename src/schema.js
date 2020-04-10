@@ -5,7 +5,7 @@ export const typeDefs = gql`
         title: String!
         category: String!
     }
-    
+
     type Product {
         _id: ID
         title: String
@@ -18,17 +18,18 @@ export const typeDefs = gql`
         bio: String
     }
 
+    type Response {
+        success: Boolean
+    }
+
     type Query {
         products: [Product]
         product(id: ID!): Product
         me: Me
     }
 
-    type Response {
-        success: Boolean
-    }
-
     type Mutation {
+        """Super Mutation \`addProduct\`"""
         addProduct(title: String!, category: String!) : Product
         updateProduct(productId: ID!, input: ProductInput) : Product
         removeProduct(productId: String!) : Response

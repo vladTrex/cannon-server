@@ -15,9 +15,9 @@ export const resolvers = {
         products: async () => {
             return await Product.find({});
         },
+
         product: async (root, args) => {
             const {id} = args;
-
             return await Product.findOne({_id: id});
         },
 

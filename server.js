@@ -23,7 +23,7 @@ const corsOptions = {
 // Setup Server
 const server = new ApolloServer({
     typeDefs,
-    resolvers,
+    resolvers
 });
 const app = express();
 server.applyMiddleware({app, cors: corsOptions});
