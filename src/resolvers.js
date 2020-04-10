@@ -11,6 +11,11 @@ const delay = ms => new Promise(resolve => {
 });
 
 export const resolvers = {
+    AllowedCategories: {
+        BUSINESS: 'business',
+        PERSONAL: 'personal',
+        GROUP: 'group'
+    },
     Query: {
         products: async () => {
             return await Product.find({});

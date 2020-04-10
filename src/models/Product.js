@@ -7,6 +7,7 @@ const ProductSchema = new Schema({
     },
     category: {
         type: String,
+        enum: ['business', 'personal', 'group'],
         required: 'Enter a category'
     }
 });

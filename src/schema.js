@@ -1,6 +1,12 @@
 import {gql} from "apollo-server-express";
 
 export const typeDefs = gql`
+    enum AllowedCategories {
+        BUSINESS
+        PERSONAL
+        GROUP
+    }
+
     input ProductInput {
         title: String!
         category: String!
@@ -29,8 +35,8 @@ export const typeDefs = gql`
     }
 
     type Mutation {
-        """Super Mutation \`addProduct\`"""
-        addProduct(title: String!, category: String!) : Product
+        """Add Product Mutation \`addProduct\` returns type \`Product\`"""
+        addProduct(title: String!, category: AllowedCategories!) : Product
         updateProduct(productId: ID!, input: ProductInput) : Product
         removeProduct(productId: String!) : Response
         updateMe(bio: String!): Me
