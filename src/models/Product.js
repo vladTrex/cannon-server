@@ -9,6 +9,21 @@ const ProductSchema = new Schema({
         type: String,
         enum: ['business', 'personal', 'group'],
         required: 'Enter a category'
+    },
+    // Personal
+    email: {
+        type: String
+    },
+    // Business
+    address: {
+        type: String
+    },
+    phone: {
+        type: String
+    },
+    // Group
+    size: {
+        type: Number
     }
 });
 

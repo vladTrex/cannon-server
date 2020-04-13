@@ -9,13 +9,42 @@ export const typeDefs = gql`
 
     input ProductInput {
         title: String!
-        category: String!
+        category: AllowedCategories!
+        email: String
+        phone: String
+        address: String
+        size: Int
     }
 
-    type Product {
+    interface Product {
         _id: ID
         title: String
         category: String
+    }
+
+    type Business implements Product {
+        _id: ID
+        title: String
+        category: String
+
+        phone: String
+        address: String
+    }
+
+    type Personal implements Product {
+        _id: ID
+        title: String
+        category: String
+
+        email: String
+    }
+
+    type Group implements Product {
+        _id: ID
+        title: String
+        category: String
+    
+        size: Int
     }
 
     type Me {
@@ -36,7 +65,7 @@ export const typeDefs = gql`
 
     type Mutation {
         """Add Product Mutation \`addProduct\` returns type \`Product\`"""
-        addProduct(title: String!, category: AllowedCategories!) : Product
+        addProduct(input: ProductInput) : Product
         updateProduct(productId: ID!, input: ProductInput) : Product
         removeProduct(productId: String!) : Response
         updateMe(bio: String!): Me

@@ -11,6 +11,24 @@ const delay = ms => new Promise(resolve => {
 });
 
 export const resolvers = {
+    Product: {
+        __resolveType(obj, context, info){
+            console.log(obj);
+            if(obj.category === 'personal'){
+              return 'Personal';
+            }
+      
+            if(obj.category === 'business'){
+              return 'Business';
+            }
+
+            if(obj.category === 'group') {
+                return 'Group';
+            }
+      
+            return null;
+          },
+    },
     AllowedCategories: {
         BUSINESS: 'business',
         PERSONAL: 'personal',
@@ -21,7 +39,7 @@ export const resolvers = {
             return await Product.find({});
         },
 
-        product: async (root, args) => {
+        product: async (_, args) => {
             const {id} = args;
             return await Product.findOne({_id: id});
         },
@@ -32,8 +50,9 @@ export const resolvers = {
         }
     },
     Mutation: {
-        addProduct: async (root, args) => {
-            const newProduct = new Product(args);
+        addProduct: async (_, args) => {
+            const {input} = args;
+            const newProduct = new Product(input);
 
             return await newProduct.save();
         },
