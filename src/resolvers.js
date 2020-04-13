@@ -43,7 +43,6 @@ export const resolvers = {
         },
         allPremiumProducts: async () => {
             const products = await Product.find({});
-            console.log(products);
 
             return products.filter(product => product.category !== 'personal');
         },
