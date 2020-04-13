@@ -26,7 +26,6 @@ export const typeDefs = gql`
         _id: ID
         title: String
         category: String
-
         phone: String
         address: String
     }
@@ -35,7 +34,6 @@ export const typeDefs = gql`
         _id: ID
         title: String
         category: String
-
         email: String
     }
 
@@ -43,9 +41,10 @@ export const typeDefs = gql`
         _id: ID
         title: String
         category: String
-    
         size: Int
     }
+
+    union PremiumProduct = Business | Group
 
     type Me {
         _id: ID!
@@ -60,6 +59,7 @@ export const typeDefs = gql`
     type Query {
         products: [Product]
         product(id: ID!): Product
+        allPremiumProducts: [PremiumProduct]
         me: Me
     }
 

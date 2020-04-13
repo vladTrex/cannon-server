@@ -11,6 +11,9 @@ const delay = ms => new Promise(resolve => {
 });
 
 export const resolvers = {
+    PremiumProduct: {
+        __resolveType: parent => (parent.category === 'group' ? 'Group' : 'Business')
+    },
     Product: {
         __resolveType(obj, context, info){
             console.log(obj);
@@ -37,6 +40,12 @@ export const resolvers = {
     Query: {
         products: async () => {
             return await Product.find({});
+        },
+        allPremiumProducts: async () => {
+            const products = await Product.find({});
+            console.log(products);
+
+            return products.filter(product => product.category !== 'personal');
         },
 
         product: async (_, args) => {
