@@ -15,8 +15,7 @@ export const resolvers = {
         __resolveType: parent => (parent.category === 'group' ? 'Group' : 'Business')
     },
     Product: {
-        __resolveType(obj, context, info){
-            console.log(obj);
+        __resolveType(obj){
             if(obj.category === 'personal'){
               return 'Personal';
             }

@@ -1,3 +1,5 @@
+import {ForbiddenError} from 'apollo-server-express';
+
 const ME = {
     _id: 1019,
     name: "John Doe",
@@ -11,7 +13,10 @@ const ME = {
   
   export default {
     Query: {
-      me: async () => {
+      me: async (_, args, context) => {
+        const { clientId } = context;
+
+        if(clientId !== ME._id) return new ForbiddenError('Forbidden resource');
         await delay(1000);
         return ME;
       }

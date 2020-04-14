@@ -2,6 +2,7 @@ import express from 'express';
 import {ApolloServer} from 'apollo-server-express';
 import mongoose from 'mongoose';
 import { mergeTypes, mergeResolvers } from 'merge-graphql-schemas';
+import jwt from 'jsonwebtoken';
 
 // import {resolvers} from './src/resolvers';
 // import {typeDefs} from './src/schema';
@@ -33,6 +34,12 @@ mongoose.connect('mongodb://warehouse_admin:s92ks9339p1U@ds155825.mlab.com:55825
     useFindAndModify: true
 });
 
+const getClientId = authToken => {
+    const decoded = jwt.verify(authToken.slice(7), "megaSecretCanonServer232332");
+
+    return decoded.clientId;
+};
+
 // CORS
 const corsOptions = {
     origin: 'http://localhost:3000',
@@ -42,7 +49,8 @@ const corsOptions = {
 // Setup Server
 const server = new ApolloServer({
     typeDefs,
-    resolvers: mergedResolvers
+    resolvers: mergedResolvers,
+    context: ({ req }) => ({ clientId: getClientId(req.headers.authorization) })
 });
 const app = express();
 server.applyMiddleware({app, cors: corsOptions});
