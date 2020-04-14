@@ -1,10 +1,13 @@
 import express from 'express';
 import {ApolloServer} from 'apollo-server-express';
 import mongoose from 'mongoose';
-import { mergeTypes } from 'merge-graphql-schemas';
+import { mergeTypes, mergeResolvers } from 'merge-graphql-schemas';
 
-import {resolvers} from './src/resolvers';
+// import {resolvers} from './src/resolvers';
 // import {typeDefs} from './src/schema';
+import meResolvers from './src/resolvers/meResolvers';
+import productResolvers from './src/resolvers/productResolvers';
+
 import meType from './src/types/meType';
 import productType from './src/types/productType';
 
@@ -15,6 +18,12 @@ const types = [
     productType,
 ];
 
+const resolvers = [
+    meResolvers,
+    productResolvers
+];
+
+const mergedResolvers = mergeResolvers(resolvers);
 const typeDefs = mergeTypes(types, { all: true });
 
 mongoose.connect('mongodb://warehouse_admin:s92ks9339p1U@ds155825.mlab.com:55825/warehouse_prod', {
@@ -33,7 +42,7 @@ const corsOptions = {
 // Setup Server
 const server = new ApolloServer({
     typeDefs,
-    resolvers
+    resolvers: mergedResolvers
 });
 const app = express();
 server.applyMiddleware({app, cors: corsOptions});
